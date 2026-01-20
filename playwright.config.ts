@@ -1,25 +1,20 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: "./tests",
-  timeout: 30_000,
-  retries: process.env.CI ? 2 : 0,
-
+  testDir: './tests',
+  retries: 2,
   use: {
-    baseURL: "http://localhost:5173",
-    headless: true,
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-    trace: "on-first-retry",
+    baseURL: 'http://localhost:5173',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
 
-  projects: [
-    {
-      name: "Chromium",
-      use: { browserName: "chromium" },
-    },
-  ],
-
-  reporter: [["html", { open: "never" }]],
+  webServer: {
+    command: 'npm run dev -- --host',
+    url: 'http://localhost:5173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
+  },
 });
 
