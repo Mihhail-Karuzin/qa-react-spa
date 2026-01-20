@@ -1,17 +1,25 @@
 {
   "name": "qa-react-spa",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "QA automation project: React SPA tested with Playwright (TypeScript) and CI",
   "scripts": {
     "dev": "cd frontend && npm run dev",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "qa",
+    "playwright",
+    "e2e",
+    "react",
+    "spa",
+    "automation",
+    "ci"
+  ],
+  "author": "Mihhail Karuzin",
+  "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.57.0"
   }
