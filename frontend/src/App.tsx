@@ -19,7 +19,8 @@ export default function App() {
     setError(null);
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 800)); // simulate backend delay
+    // simulate backend delay
+    await new Promise((r) => setTimeout(r, 800));
 
     if (username !== "standard_user" || password !== "secret_sauce") {
       setError("Invalid credentials");
@@ -29,6 +30,13 @@ export default function App() {
 
     setPage("products");
     setLoading(false);
+  }
+
+  function handleLogout() {
+    setUsername("");
+    setPassword("");
+    setProducts([]);
+    setPage("login");
   }
 
   useEffect(() => {
@@ -59,7 +67,9 @@ export default function App() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <br /><br />
+          <br />
+          <br />
+
           <input
             data-testid="password-input"
             placeholder="Password"
@@ -67,7 +77,8 @@ export default function App() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <br /><br />
+          <br />
+          <br />
 
           <button
             data-testid="login-button"
@@ -84,9 +95,18 @@ export default function App() {
 
       {page === "products" && (
         <div data-testid="products-page">
-          <h2>Products</h2>
+          <h2 data-testid="products-title">Products</h2>
 
-          {loading && <p data-testid="products-loading">Loading products…</p>}
+          <button
+            data-testid="logout-button"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+
+          {loading && (
+            <p data-testid="products-loading">Loading products…</p>
+          )}
 
           <ul data-testid="products-list">
             {products.map((p) => (
@@ -100,4 +120,3 @@ export default function App() {
     </div>
   );
 }
-

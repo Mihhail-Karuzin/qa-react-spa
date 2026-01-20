@@ -1,11 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { loginAsStandardUser } from "./utils/auth";
 
 test("user can login and see products", async ({ page }) => {
-  await page.goto("/");
-
-  await page.getByTestId("username-input").fill("standard_user");
-  await page.getByTestId("password-input").fill("secret_sauce");
-  await page.getByTestId("login-button").click();
+  await loginAsStandardUser(page);
 
   await expect(page.getByTestId("products-page")).toBeVisible();
   await expect(page.getByTestId("products-list")).toBeVisible();
@@ -14,3 +11,4 @@ test("user can login and see products", async ({ page }) => {
   await expect(page.getByTestId("product-2")).toContainText("T-Shirt");
   await expect(page.getByTestId("product-3")).toContainText("Jacket");
 });
+
