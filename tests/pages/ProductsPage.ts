@@ -18,7 +18,7 @@ export class ProductsPage {
   async expectLoaded() {
     await expect(this.title).toBeVisible();
 
-    // loading may appear briefly → wait until gone
+    // Loading may appear briefly → wait until gone
     if (await this.loading.isVisible()) {
       await expect(this.loading).toBeHidden({ timeout: 5000 });
     }
@@ -28,9 +28,16 @@ export class ProductsPage {
     await expect(this.products).toHaveCount(count);
   }
 
+  async expectProductNames(expectedNames: string[]) {
+    for (const name of expectedNames) {
+      await expect(this.page.getByText(name)).toBeVisible();
+    }
+  }
+
   async logout() {
     await this.logoutButton.click();
   }
 }
+
 
 
