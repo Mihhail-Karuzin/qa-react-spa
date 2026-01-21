@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from './pages/LoginPage';
 
 test('shows error when products API fails', async ({ page }) => {
-  // 🔹 Mock API failure
+  // 1️⃣ Intercept BEFORE navigation
   await page.route('**/api/products', async (route) => {
     await route.fulfill({
       status: 500,
@@ -11,14 +10,18 @@ test('shows error when products API fails', async ({ page }) => {
     });
   });
 
-  const loginPage = new LoginPage(page);
+  // 2️⃣ Open app
+  await page.goto('/');
 
-  await loginPage.open();
-  await loginPage.login('standard_user', 'secret_sauce');
+  // 3️⃣ Login
+  await page.getByTestId('username-input').fill('standard_user');
+  await page.getByTestId('password-input').fill('secret_sauce');
+  await page.getByTestId('login-button').click();
 
-  // 🔹 Assert UI error handling
+  // 4️⃣ Assert UI error
   const error = page.getByTestId('products-error');
   await expect(error).toBeVisible();
   await expect(error).toHaveText('Failed to load products');
 });
+
 
