@@ -36,6 +36,7 @@ export default function App() {
     setUsername("");
     setPassword("");
     setProducts([]);
+    setError(null);
     setPage("login");
   }
 
@@ -120,3 +121,4 @@ export default function App() {
     </div>
   );
 }
+

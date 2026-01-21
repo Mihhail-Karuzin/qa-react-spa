@@ -1,21 +1,25 @@
-import { expect, Page } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
 
 export class ProductsPage {
-  constructor(private readonly page: Page) {}
+  readonly page: Page;
+  readonly title: Locator;
+  readonly productsList: Locator;
+  readonly loadingIndicator: Locator;
 
-  pageRoot = () => this.page.getByTestId("products-page");
-  loading = () => this.page.getByTestId("products-loading");
-  productsList = () => this.page.getByTestId("products-list");
-  productById = (id: number) => this.page.getByTestId(`product-${id}`);
+  constructor(page: Page) {
+    this.page = page;
+    this.title = page.getByTestId('products-title');
+    this.productsList = page.getByTestId('products-list');
+    this.loadingIndicator = page.getByTestId('products-loading');
+  }
 
   async expectLoaded() {
-    await expect(this.pageRoot()).toBeVisible();
+    await expect(this.loadingIndicator).toBeHidden({ timeout: 5000 });
+    await expect(this.title).toBeVisible();
+  }
 
-    // SPA-safe loading handling
-    if (await this.loading().isVisible().catch(() => false)) {
-      await expect(this.loading()).toBeHidden({ timeout: 5000 });
-    }
-
-    await expect(this.productsList()).toBeVisible();
+  async expectProductCount(count: number) {
+    await expect(this.productsList.locator('li')).toHaveCount(count);
   }
 }
+
