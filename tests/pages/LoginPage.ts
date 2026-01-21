@@ -1,7 +1,9 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator, expect } from "@playwright/test";
 
 export class LoginPage {
   readonly page: Page;
+
+  readonly loginPage: Locator;
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
@@ -10,15 +12,17 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.usernameInput = page.getByTestId('username-input');
-    this.passwordInput = page.getByTestId('password-input');
-    this.loginButton = page.getByTestId('login-button');
-    this.errorMessage = page.getByTestId('login-error');
-    this.loadingIndicator = page.getByTestId('login-loading');
+
+    this.loginPage = page.getByTestId("login-page");
+    this.usernameInput = page.getByTestId("username-input");
+    this.passwordInput = page.getByTestId("password-input");
+    this.loginButton = page.getByTestId("login-button");
+    this.errorMessage = page.getByTestId("login-error");
+    this.loadingIndicator = page.getByTestId("login-loading");
   }
 
   async open() {
-    await this.page.goto('/');
+    await this.page.goto("/");
   }
 
   async login(username: string, password: string) {
@@ -27,7 +31,12 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
+  async expectLoaded() {
+    await expect(this.loginPage).toBeVisible();
+  }
+
   async expectLoginError() {
     await expect(this.errorMessage).toBeVisible();
   }
 }
+
