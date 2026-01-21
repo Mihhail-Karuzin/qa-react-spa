@@ -19,7 +19,7 @@ export default function App() {
     setError(null);
     setLoading(true);
 
-    // simulate backend delay
+    // simulate backend delay for login
     await new Promise((r) => setTimeout(r, 800));
 
     if (username !== "standard_user" || password !== "secret_sauce") {
@@ -44,15 +44,24 @@ export default function App() {
     if (page === "products") {
       setLoading(true);
       setProducts([]);
+      setError(null);
 
-      setTimeout(() => {
-        setProducts([
-          { id: 1, name: "Backpack", price: 29.99 },
-          { id: 2, name: "T-Shirt", price: 15.99 },
-          { id: 3, name: "Jacket", price: 49.99 },
-        ]);
-        setLoading(false);
-      }, 1000);
+      (async () => {
+        try {
+          const res = await fetch("/api/products");
+
+          if (!res.ok) {
+            throw new Error("Failed to load products");
+          }
+
+          const data = (await res.json()) as Product[];
+          setProducts(data);
+        } catch {
+          setError("Failed to load products");
+        } finally {
+          setLoading(false);
+        }
+      })();
     }
   }, [page]);
 
@@ -109,6 +118,10 @@ export default function App() {
             <p data-testid="products-loading">Loading products…</p>
           )}
 
+          {error && (
+            <p data-testid="products-error">{error}</p>
+          )}
+
           <ul data-testid="products-list">
             {products.map((p) => (
               <li key={p.id} data-testid={`product-${p.id}`}>
@@ -121,4 +134,5 @@ export default function App() {
     </div>
   );
 }
+
 
