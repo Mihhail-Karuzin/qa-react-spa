@@ -3,42 +3,45 @@
 # QA React SPA — Playwright E2E Automation
 
 ## 📌 Project Overview
-This project demonstrates end-to-end (E2E) testing of a React Single Page Application (SPA)
-using Playwright and TypeScript.
 
-The focus is on **stable, CI-ready UI automation** for modern SPAs, including async behavior,
-predictable selectors, and real-world test execution in GitHub Actions.
+This repository demonstrates **end-to-end (E2E) UI automation** for a modern **React Single Page Application (SPA)** using **Playwright and TypeScript**.
+
+The frontend application is intentionally simple, while the **testing architecture reflects real-world, production-level QA practices**, including:
+
+- deterministic and stable E2E tests
+- async-safe UI validation
+- Page Object Model (POM)
+- CI-ready execution with GitHub Actions
+
+This project is built as a **QA / SDET portfolio project**, showcasing how modern UI automation frameworks are structured, stabilized, and maintained in professional teams.
 
 ---
 
 ## 🧪 Tech Stack
-- **Frontend:** React (Vite, TypeScript)
-- **Testing:** Playwright (TypeScript)
-- **CI/CD:** GitHub Actions
-- **Environment:** Linux (WSL), Node.js
+
+- **Frontend:** React, Vite, TypeScript  
+- **Testing:** Playwright (TypeScript)  
+- **Architecture:** Page Object Model (POM)  
+- **CI/CD:** GitHub Actions  
+- **Environment:** Linux (WSL), Node.js  
 
 ---
 
-## 🎯 Testing Goals
-- Validate critical user flows (login → products)
-- Handle async UI behavior without flaky waits
-- Use stable selectors (`data-testid`)
-- Run tests locally and in CI with the same configuration
+## 🧱 Project Structure
 
----
-
-## 🚀 How to Run Locally
-
-```bash
-# install root dependencies
-npm install
-
-# start React SPA
-npm run dev
-
-# run Playwright tests
-npm test
-
-# To view the HTML report after test execution:
-npm run test:report
-
+```text
+qa-react-spa/
+├── frontend/                  # React SPA (Vite)
+├── tests/
+│   ├── pages/                 # Page Objects
+│   │   ├── LoginPage.ts
+│   │   └── ProductsPage.ts
+│   ├── utils/                 # Shared helpers
+│   │   └── auth.ts
+│   ├── login.spec.ts          # Positive login flow
+│   ├── login-negative.spec.ts # Invalid credentials scenario
+│   └── logout.spec.ts         # Logout flow
+├── playwright.config.ts       # Playwright configuration
+├── .github/workflows/
+│   └── playwright.yml         # CI pipeline
+└── README.md
