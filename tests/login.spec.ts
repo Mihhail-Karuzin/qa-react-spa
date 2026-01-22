@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from './fixtures';
 import { loginAsStandardUser } from './utils/auth';
 
 test('user can login and see products', async ({ page }) => {

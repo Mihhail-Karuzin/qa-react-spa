@@ -1,29 +1,23 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import App from './App';
+import './index.css';
 
-// 🔑 Read environment flag
-const isMswDisabled = import.meta.env.VITE_DISABLE_MSW === 'true';
-
-async function prepareApp() {
-  // Start MSW ONLY when NOT disabled
-  if (import.meta.env.DEV && !isMswDisabled) {
+// ✅ Disable MSW when running Playwright
+async function prepare() {
+  if (import.meta.env.MODE === 'development' && !window.__PLAYWRIGHT__) {
     const { worker } = await import('./mocks/browser');
-    await worker.start();
+    await worker.start({
+      onUnhandledRequest: 'bypass',
+    });
   }
 }
 
-const rootElement = document.getElementById('root');
-
-if (!rootElement) {
-  throw new Error('Root element not found');
-}
-
-prepareApp().then(() => {
-  createRoot(rootElement).render(
-    <StrictMode>
+prepare().then(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
       <App />
-    </StrictMode>
+    </React.StrictMode>
   );
 });
+
