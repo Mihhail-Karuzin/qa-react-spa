@@ -26,6 +26,20 @@ reflecting real-world QA / SDET practices.
 
 ---
 
+## Visual Regression Testing
+
+This project includes visual regression testing using Playwright screenshots.
+
+Because visual rendering can differ slightly across environments (local machine, Docker, CI runners),
+visual tests are:
+
+- Executed locally and inside Docker (Linux baseline)
+- Skipped in CI to avoid environment-specific rendering differences
+
+This approach keeps the CI pipeline stable while preserving intentional visual validation
+in controlled environments.
+
+
 ## Tech Stack
 
 - React, Vite, TypeScript
@@ -136,6 +150,9 @@ npx playwright test tests/visual/products.visual.spec.ts --update-snapshots
 npx playwright show-report
 
 ### CI
+
+## CI executes functional, API-mocking, and accessibility tests.
+## Visual regression tests are excluded from CI by design.
 
 ## Tests run automatically on every push and pull request using GitHub Actions.
 
