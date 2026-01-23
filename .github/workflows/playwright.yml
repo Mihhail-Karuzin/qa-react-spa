@@ -17,26 +17,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      # 1️⃣ Install ROOT dependencies (Playwright, test tooling)
       - name: Install root dependencies
-        run: npm install
+        run: npm ci
 
-      # 2️⃣ Install FRONTEND dependencies (Vite / React)
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
+        run: npm ci
 
-      # 3️⃣ Install Playwright browsers
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # 4️⃣ Run Playwright tests (exclude visual regression)
       - name: Run Playwright tests
         run: npx playwright test --grep-invert @visual
 
-      # 5️⃣ Upload Playwright HTML report
-      - name: Upload Playwright report
+      - name: Upload Playwright HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
