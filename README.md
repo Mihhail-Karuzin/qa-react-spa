@@ -82,7 +82,6 @@ qa-react-spa/
 > ⚠️ Important: All tests import `test` and `expect` from custom fixtures  
 > (`tests/fixtures`) to ensure consistent mocking, setup, and stability.
 
-
 ---
 
 ## How to Run Locally
