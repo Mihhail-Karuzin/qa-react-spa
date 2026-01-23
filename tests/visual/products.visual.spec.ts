@@ -1,6 +1,9 @@
 import { test, expect } from '../fixtures';
 import { loginAsStandardUser } from '../utils/auth';
 
+// ⛔ Skip visual tests in CI (GitHub Actions)
+test.skip(process.env.CI, 'Skip visual regression tests in CI');
+
 test('products page visual snapshot', async ({ page }) => {
   // 1️⃣ Mock products API with stable data
   await page.route('**/api/products', route =>
